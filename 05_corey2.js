@@ -52,8 +52,17 @@ io.on('connection', function(socket) {
         payload.pinStatus = wpi.digitalRead(pin);
         socket.emit('status', payload);
     }
+
+    function sendPinStatus2() {
+        payload2 = {};
+        payload2.pinStatus2 = wpi.digitalRead(pin2);
+        socket.emit('status2', payload2);
+    }
+
     sendPinStatus();
+    sendPinStatus2();
     socket.on('doServer', doServer);
+    socket.on('doServer2', doServer2);
 
 
 
@@ -62,22 +71,19 @@ io.on('connection', function(socket) {
         sendPinStatus();
         console.log(data);
     }
-});
 
-io.on('connection2', function(socket2) {
-
-    function sendPinStatus2() {
-        payload2 = {};
-        payload2.pinStatus2 = wpi.digitalRead(pin2);
-        socket2.emit('status2', payload2);
-    }
-
-    sendPinStatus2();
-    socket2.on('doServer2', doServer2);
-
-    function doServer2(data2) {
+    function doServer2(data) {
         toggleBulb2();
         sendPinStatus2();
-        console.log(data2);
+        console.log("Bulb 2");
     }
+});
+
+io.on('connection2', function(socket) {
+
+
+
+
+
+
 });
